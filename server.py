@@ -12,12 +12,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def start():
-	return render_template("index.html")
+    return render_template("index.html")
 
 @app.route('/find_city/', methods=['GET','POST'])
 def find_city():
-	# Användaren skriver in en stad
-	city = request.form.get("city")
+    # Användaren skriver in en stad
+    city = request.form.get("city")
     # get_coordinates anropas med staden som argument för att ta fram koordinater
     # En lista innehållandes longitude och latitude returneras
     coordinates_list = get_coordinates(city)
@@ -34,8 +34,8 @@ def find_city():
     # SKRIVER BARA UT FÖR ATT SE ATT DICT ÄR RÄTT
     #print(weather_forecast)
     #''' TA BORT DETTA SEN '''
-    #for i in weather_forecast:
-        #print(i + ': ' + str(weather_forecast[i]))
+    for i in weather_forecast:
+        print(i + ': ' + str(weather_forecast[i]))
 
 
     #DENNA SKA SKICKAS TILL SPOTIFY
@@ -50,8 +50,9 @@ def find_city():
     print("We found this playlist for you: " + name_of_playlist)
     for artist in artists_in_a_playlist:
         print (artist)
-    print("Länk till iframe: " + player)
-    return render_template("result.html", city=city)
+        print("Länk till iframe: " + player)
 
-if __name__ == "__name__":
-    app.run(debug=True)
+    return render_template("result.html", city=city, name_of_playlist=name_of_playlist, artists_in_a_playlist=artists_in_a_playlist, artist=artist, player=player)
+
+    if __name__ == "__name__":
+        app.run(debug=True)

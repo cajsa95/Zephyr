@@ -7,7 +7,13 @@
   <body>
     <div id="wrapper">
       <h1>Zephyr</h1>
-        <p>this is the mother fucking results. du vill åka till {{ city }} där är vädret faktiskt inte riktigt på min  sida</p>
+        <p>this is the mother fucking results. du vill åka till {{ city }} där är vädret faktiskt inte riktigt på min  sida
+        Vi har hittat en svinbra lista som heter {{ name_of_playlist }} </p>}
+        <ul>{% for artist in artists_in_a_playlist %}
+            <li>hej {{ artist }}</li>
+            {% endfor %}
+        </ul>
+        <p>Lyssna här! {{ player }} </p>
     </div>
   </body>
 </html>
