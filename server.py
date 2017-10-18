@@ -20,12 +20,17 @@ def start():
 	
 	weather_forecast = get_weather_forecast(coordinates_list[0], coordinates_list[1])
 	
+	# SKRIVER BARA UT FÖR ATT SE ATT DICT ÄR RÄTT
 	print(weather_forecast)
 	''' TA BORT DETTA SEN '''
 	for i in weather_forecast:
-		print(i + str(weather_forecast[i]))
+		print(i + ': ' + str(weather_forecast[i]))
+
+
+	#DENNA SKA SKICKAS TILL SPOTIFY
+	weather_symbol = weather_forecast['weather_symbol']
 	
-def hej_spotify_vill_du_bestämma_symbol_tack_på_förhand(valfritt):
+def hej_spotify_vill_du_bestämma_symbol_tack_på_förhand(weather_symbol):
 	pass
 
 start()
