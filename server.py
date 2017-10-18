@@ -21,7 +21,6 @@ def find_city():
     # get_coordinates anropas med staden som argument för att ta fram koordinater
     # En lista innehållandes longitude och latitude returneras
     coordinates_list = get_coordinates(city)
-
     #''' TA BORT DETTA SEN '''
     print('*** ' + city.upper() + ' ***')
     print('*'*15)
