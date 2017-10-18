@@ -11,36 +11,36 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 def get_spotify_info(weather_symbol):
 
     #Symbolen som avgör vilken spellista som ska rekomenderas, finns 1-15 st hämtade från SMHIs API
-    if weather_symbol == "1": #Clear Sky
+    if weather_symbol == 1: #Clear Sky
         song_id = "37i9dQZF1DXdPec7aLTmlC" #Happy hits!
-    elif weather_symbol == "2": #Nearly Clear Sky
+    elif weather_symbol == 2: #Nearly Clear Sky
         song_id = "37i9dQZF1DX1y2vWSgwjbV" #Life is good!
-    elif weather_symbol == "3": #Variable cloudiness
+    elif weather_symbol == 3: #Variable cloudiness
         song_id = "37i9dQZF1DXcwkNsfYPDPQ" #Feeling good låtar!
-    elif weather_symbol == "4": #Halfclear sky
+    elif weather_symbol == 4: #Halfclear sky
         song_id = "37i9dQZF1DWU0ScTcjJBdj" #Relax & Unwind
-    elif weather_symbol == "5": #Cloudy sky
+    elif weather_symbol == 5: #Cloudy sky
         song_id = "37i9dQZF1DX1qJrMsOBLRT" #När löven faller
-    elif weather_symbol == "6": #Overcast
+    elif weather_symbol == 6: #Overcast
         song_id = "37i9dQZF1DX1s9knjP51Oa" #Calm Vibes
-    elif weather_symbol == "7": #Fog
+    elif weather_symbol == 7: #Fog
         song_id = "37i9dQZF1DWWuOw4E4LGde" #Stillsamt mörker
-    elif weather_symbol == "8": #Rain showers
+    elif weather_symbol == 8: #Rain showers
         song_id = "37i9dQZF1DWVYh7Tdj3ZL8" #En regning dag
-    elif weather_symbol == "9": #Thunderstorm
+    elif weather_symbol == 9: #Thunderstorm
         song_id = "37i9dQZF1DWSlw12ofHcMM" #Swagger
-    elif weather_symbol == "10": #Light sleet
+    elif weather_symbol == 10: #Light sleet
         song_id = "37i9dQZF1DWSqBruwoIXkA" #Down in the dumps
-    elif weather_symbol == "11": #Snow showers
+    elif weather_symbol == 11: #Snow showers
         song_id = "37i9dQZF1DXbi6K7zACoDU" #Vintermys
-    elif weather_symbol == "12": #Rain
+    elif weather_symbol == 12: #Rain
         song_id = "37i9dQZF1DXbvABJXBIyiY" #Rainy day
-    elif weather_symbol == "13": #Thunder
+    elif weather_symbol == 13: #Thunder
         song_id = "37i9dQZF1DX2pSTOxoPbx9" #Dark & Stormy
-    elif weather_symbol == "14": #Sleet
+    elif weather_symbol == 14: #Sleet
         song_id = "37i9dQZF1DX3YSRoSdA634" #Life sucks
-    elif weather_symbol == "15": #Snowfall
-        song_id = "37i9dQZF1DWTEpIN9mg9FS" #Winter chills
+    elif weather_symbol == 15: #Snowfall
+        song_id = "37i9dQZF1DX6R7QUWePReA" #Christmas Classics
     else:
         print("Something went terrible wrong, sorry!")
 
