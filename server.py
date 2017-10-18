@@ -17,12 +17,13 @@ def start():
 
 	# get_coordinates anropas med koordinaterna som argument
 	# En lista innehållandes temperatur och nuvarande vädersymbol returneras
+	
 	weather_forecast = get_weather_forecast(coordinates_list[0], coordinates_list[1])
 	
-	''' TA BORT DETTA SEN '''
 	print(weather_forecast)
+	''' TA BORT DETTA SEN '''
 	for i in weather_forecast:
-		print(i)
+		print(i + str(weather_forecast[i]))
 	
 def hej_spotify_vill_du_bestämma_symbol_tack_på_förhand(valfritt):
 	pass

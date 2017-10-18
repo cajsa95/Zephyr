@@ -12,8 +12,8 @@ def get_weather_forecast(longitude, latitude):
 	# Väljer den aktuella tiden
 	current_valid_time = get_valid_times.json()["validTime"][0]
 
-	# Skapar en tom lista
-	result_list = []
+	# Skapar ett tomt lexikon
+	result_dict = {}
 
 	# Loopar igenom den returnerade JSON
 	for item in results:
@@ -22,8 +22,10 @@ def get_weather_forecast(longitude, latitude):
 			# Loopar igenom alla parametrar
 			for parameter in item['parameters']:
 				# Tar ut parametrar för temperatur och vädersymbol
-				if parameter['name'] == 't' or parameter['name'] == 'Wsymb':
-					result_list.append(parameter['name'] + str(parameter['values']))
+				if parameter['name'] == 't':
+					result_dict['temperature'] = parameter['values'][0]
+				elif parameter['name'] == 'Wsymb':
+					result_dict['weather_symbol'] = parameter['values'][0]
 
-	# Returnerar listan
-	return result_list
+	# Returnerar lexikonet
+	return result_dict
