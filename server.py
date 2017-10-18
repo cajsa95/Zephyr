@@ -4,10 +4,20 @@ from geocoding_api import get_coordinates
 from smhi_api import get_weather_forecast
 # Importerar funktionen som använder Spotify's API
 from spotify_api import get_spotify_info
+from flask import Flask
+from flask import request
+from flask import *
 
+app = Flask(__name__)
+
+@app.route('/')
 def start():
-    # Användaren skriver in en stad
-    city = input('Välj stad: ')
+	return render_template("index.html")
+
+@app.route('/find_city/', methods=['GET','POST'])
+def find_city():
+	# Användaren skriver in en stad
+	city = request.form.get("city")
     # get_coordinates anropas med staden som argument för att ta fram koordinater
     # En lista innehållandes longitude och latitude returneras
     coordinates_list = get_coordinates(city)
@@ -42,5 +52,7 @@ def start():
     for artist in artists_in_a_playlist:
         print (artist)
     print("Länk till iframe: " + player)
+    return render_template("result.html", city=city)
 
-start()
+if __name__ == "__name__":
+    app.run(debug=True)
