@@ -12,6 +12,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def start():
+    #visar startsidan där stad väljs, skickas vidare till route find_city
     return render_template("index.html")
 
 @app.route('/find_city/', methods=['GET','POST'])
