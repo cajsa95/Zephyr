@@ -8,7 +8,7 @@ def get_weather_forecast(longitude, latitude):
 	results = weather_forecast.json()['timeSeries']
 
 	# Gör en GET-förfrågan till APIet för att få ut alla giltiga tider för prognoser
-	get_valid_times = requests.get("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/validtime.json")
+	get_valid_times = requests.get("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/validtime.json")  
 	# Väljer den aktuella tiden
 	current_valid_time = get_valid_times.json()["validTime"][0]
 

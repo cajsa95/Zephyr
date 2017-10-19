@@ -15,7 +15,7 @@ def start():
     #visar startsidan där stad väljs, skickas vidare till route find_city
     return render_template("index.html")
 
-@app.route('/find_city/', methods=['GET','POST'])
+@app.route('/result/', methods=['GET','POST'])
 def find_city():
     # Användaren skriver in en stad
     city = request.form.get("city")
@@ -32,17 +32,21 @@ def find_city():
 
     weather_forecast = get_weather_forecast(coordinates_list[0], coordinates_list[1])
 
+
     # SKRIVER BARA UT FÖR ATT SE ATT DICT ÄR RÄTT
     #print(weather_forecast)
-    #''' TA BORT DETTA SEN '''
+    #TA BORT DETTA SEN
     for i in weather_forecast:
         print(i + ': ' + str(weather_forecast[i]))
+
 
 
     #DENNA SKA SKICKAS TILL SPOTIFY
     weather_symbol = (weather_forecast['weather_symbol'])
     #print(weather_symbol)
 
+    city = city.title()
+    temp = str(weather_forecast[i])
     spotify_data = get_spotify_info(weather_symbol)
     artists_in_a_playlist = spotify_data[0]
     name_of_playlist = spotify_data[1]
@@ -53,7 +57,8 @@ def find_city():
         print (artist)
         print("Länk till iframe: " + player)
 
-    return render_template("result.html", city=city, name_of_playlist=name_of_playlist, artists_in_a_playlist=artists_in_a_playlist, artist=artist, player=player)
+
+    return render_template("result.html", artists_in_a_playlist = artists_in_a_playlist, name_of_playlist = name_of_playlist, player=player, city=city, temp=temp)
 
     if __name__ == "__name__":
         app.run(debug=True)
