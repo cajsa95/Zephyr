@@ -33,6 +33,13 @@ def find_city():
     temp = (weather_forecast['temperature'])
     #JESSICA FÖRSTÅR EJ DENNA. VARFÖR HAR VI TVÅ CITY-VARIABLER? och vad gör city.title()?
     city = city.title()
+
+    #FELET LIGGER HÄR!!!
+    #def get_weather_picture finns under weather.py
+    #NameError: name 'get_weather_picture' is not defined kommer upp varje gång
+    #klistrar jag in någon av väderlänkarna direkt istället för funktionen get_weather_picture så fungerar det
+    #Testa tex denna : https://www.smhi.se/polopoly_fs/1.12110.1490013119!/image/1.png_gen/derivatives/Original_259px/image/1.png
+    picture = get_weather_picture(weather_symbol)
     #get_spotify_info returnerar lista med alla artister, namnet på spellistan och länken till seplaren
     spotify_data = get_spotify_info(weather_symbol)
     #artists_in_a_playlist hämtar ut artisterna från spotify_data och sparar i en lista
@@ -63,8 +70,9 @@ def find_city():
     for artist in artists_in_a_playlist:
         print (artist)
         print("Länk till iframe: " + player)
+    print(picture)
 
-    return render_template("result.html", artists_in_a_playlist = artists_in_a_playlist, name_of_playlist = name_of_playlist, player=player, city=city, weather_symbol=weather_symbol, temp=temp)
+    return render_template("result.html", artists_in_a_playlist = artists_in_a_playlist, name_of_playlist = name_of_playlist, player=player, city=city, weather_symbol=weather_symbol, temp=temp, picture=picture)
 
     if __name__ == "__name__":
         app.run(debug=True)
