@@ -7,18 +7,19 @@
   <body>
     <div id="wrapper">
       <h1>Zephyr</h1>
-        <p>This is the mother fucking results! Du vill åka till {{ city }} där temperaturen är {{ temp }} grader.
+        <p>This is the results! Du vill åka till {{ city }} där vädret har symbolen {{ weather_symbol }} och temperaturen är {{ temp }} grader.
         Zephyr har hittat en svinbra lista till dig som heter <strong>{{ name_of_playlist }}</strong>.
         Listan passar perfekt för vädret i {{ city }}.
-      Enjoy!</p>
+        Enjoy!</p>
+      <h2>LYSSNA HÄR: </h2>
+      <iframe src="{{ player }}" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
 
-      <h2>Följande artister tror vi passar: </h2>
+      <h2>Följande artister finns med på spellistan: </h2>
         <ul>{% for artist in artists_in_a_playlist %}
             <li>{{ artist }}</li>
             {% endfor %}
         </ul>
         <h2>LYSSNA HÄR: </h2>
-        <iframe src="{{ player }}" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
     </div>
   </body>
 </html>
