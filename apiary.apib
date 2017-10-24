@@ -3,8 +3,18 @@ HOST: http://polls.apiblueprint.org/
 
 # Zephyr
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+Zephyr är ett API vars funktioner ger användaren en musiklista väl anpassat till
+det nuvarande vädret. Det är en mobil applikaion där användaren anger på vilken ort
+hen befinner sig. Ortsnamnet skickas med som parameter till Google maps API och
+returnerar de korrekta kordinaterna som därefter skickas vidare till SMHI´s API. SMHI
+returnerar den aktuella temperaturen samt vilket väder det är just nu. Det finns 15
+olika väderalternativ, från helt klart till åska. Vädret anger ett specifikt "moode"
+till spotify som returnerar en passande spellista. Användaren får på egen hand logga 
+in på spotify och Zephyr har inte någon delaktighet i den inloggningen. Alla svar 
+från de tre API:n skickas i JSON. Applikationen är byggd i python, HTML och CSS.
 
+##
+G
 ## Questions Collection [/questions]
 
 ### List All Questions [GET]
