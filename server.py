@@ -4,8 +4,9 @@ from geocoding_api import get_coordinates
 from smhi_api import get_weather_forecast
 # Importerar funktionen som använder Spotify's API
 from spotify_api import get_spotify_info
-from flask import Flask
-from flask import request
+# Importerar funktionen som hämtar vädersymbolerna från smhi
+from weather import get_weather_picture
+from flask import Flask, request, render_template
 from flask import *
 
 app = Flask(__name__)
@@ -18,7 +19,7 @@ def start():
 @app.route('/result/', methods=['GET','POST'])
 def find_city():
     # hämtar vilken stad som har angivits i formuläret
-    city = request.form.get("city")
+    city = request.form.get("city").title()
     # get_coordinates anropas med staden som argument för att ta fram koordinater
     # En lista innehållandes longitude och latitude returneras
     coordinates_list = get_coordinates(city)
@@ -31,48 +32,16 @@ def find_city():
     #tar ut endast temperaturen från weather_forecast
     #ska returneras till html result
     temp = (weather_forecast['temperature'])
-    #JESSICA FÖRSTÅR EJ DENNA. VARFÖR HAR VI TVÅ CITY-VARIABLER? och vad gör city.title()?
-    city = city.title()
 
-    #FELET LIGGER HÄR!!!
-    #def get_weather_picture finns under weather.py
-    #NameError: name 'get_weather_picture' is not defined kommer upp varje gång
-    #klistrar jag in någon av väderlänkarna direkt istället för funktionen get_weather_picture så fungerar det
-    #Testa tex denna : https://www.smhi.se/polopoly_fs/1.12110.1490013119!/image/1.png_gen/derivatives/Original_259px/image/1.png
+    #hämtar ut bilden för vädersymbolen
     picture = get_weather_picture(weather_symbol)
-    #get_spotify_info returnerar lista med alla artister, namnet på spellistan och länken till seplaren
+
+    #get_spotify_info returnerar lista namnet på spellistan och länken till seplaren
     spotify_data = get_spotify_info(weather_symbol)
-    #artists_in_a_playlist hämtar ut artisterna från spotify_data och sparar i en lista
-    artists_in_a_playlist = spotify_data[0]
-    #hämtar namnet på spellistan
-    name_of_playlist = spotify_data[1]
-    #playern för listan sparas i player
-    player = spotify_data[2]
+    name_of_playlist = spotify_data[0]
+    link = spotify_data[1]
 
-    #''' TA BORT DETTA SEN, ENDAST FÖR ATT VI SJÄLVA SKA SE ATT ALLT OVANSTÅENDE FUNGERAR'''
-    #Först skrivs staden ut, sedan longitude och latitude. fungerar allt?
-    print('*** ' + city.upper() + ' ***')
-    print('*'*15)
-    print('Longitude: ' + coordinates_list[0] + ' Latitude: ' + coordinates_list[1])
-    #Skriver ut vår dictionary weather_forecast.
-    print(weather_forecast)
-    #kontrollerar att allt i dictionary weather_forecast stämmer.
-    for i in weather_forecast:
-        print(i + ': ' + str(weather_forecast[i]))
-    #kontrollera att vädersymbolen är korrekt i variabeln weather_symbol
-    print(weather_symbol)
-    #kontrollera är temperaturen är korrekt i variabeln temp
-    print(temp)
-    #testar att name_of_playlist innehåller korrekt namn på spellista
-    #samt att alla artister finns sparade i artists_in_a_playlist
-    #även att player kan spela upp listan!
-    print("We found this playlist for you: " + name_of_playlist)
-    for artist in artists_in_a_playlist:
-        print (artist)
-        print("Länk till iframe: " + player)
-    print(picture)
-
-    return render_template("result.html", artists_in_a_playlist = artists_in_a_playlist, name_of_playlist = name_of_playlist, player=player, city=city, weather_symbol=weather_symbol, temp=temp, picture=picture)
+    return render_template("result.html", city=city, weather_symbol=weather_symbol, temp=temp, picture=picture, name_of_playlist=name_of_playlist, link=link )
 
     if __name__ == "__name__":
         app.run(debug=True)

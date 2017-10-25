@@ -3,87 +3,72 @@ import spotipy
 import json
 import requests
 
-#Hämtar information från Spotify. Autentisering via Client Credentials flow dvs:
-#client_id och client_secret är specifikt för Zephyr
-client_credentials_manager = SpotifyClientCredentials(client_id='c7c574d9d26b448789d562cc1af24406', client_secret='4082946357c043c2b959cfb557337f27')
-sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+#Autentisering sker via Client Credentials flow dvs:
+#client_id och client_secret är specifikt för just Zephyr
+client_id='c7c574d9d26b448789d562cc1af24406'
+client_secret='4082946357c043c2b959cfb557337f27'
+
+#nödvändiga parametrar till API-anropet
+grant_type = 'client_credentials'
+body_params = {'grant_type' : grant_type}
+
+#URLn anropet till APIt utgår ifrån
+url='https://accounts.spotify.com/api/token'
 
 def get_spotify_info(weather_symbol):
-
-    #Symbolen som avgör vilken spellista som ska rekomenderas, finns 1-15 st hämtade från SMHIs API
+    #Vädersymbolen från smhi's API avgör vilket "mood" det är på
+    #listan som rekommenderas från Spotify,
     if weather_symbol == 1: #Clear Sky
-        song_id = "37i9dQZF1DXdPec7aLTmlC" #Happy hits!
+        mood = 'happy'
     elif weather_symbol == 2: #Nearly Clear Sky
-        song_id = "37i9dQZF1DX1y2vWSgwjbV" #Life is good!
+        mood = 'great day'
     elif weather_symbol == 3: #Variable cloudiness
-        song_id = "37i9dQZF1DXcwkNsfYPDPQ" #Feeling good låtar!
+        mood = 'sunshine'
     elif weather_symbol == 4: #Halfclear sky
-        song_id = "37i9dQZF1DWU0ScTcjJBdj" #Relax & Unwind
+        mood = 'calm'
     elif weather_symbol == 5: #Cloudy sky
-        song_id = "37i9dQZF1DX1qJrMsOBLRT" #När löven faller
+        mood = 'sad'
     elif weather_symbol == 6: #Overcast
-        song_id = "37i9dQZF1DX1s9knjP51Oa" #Calm Vibes
+        mood = 'fuzzy'
     elif weather_symbol == 7: #Fog
-        song_id = "37i9dQZF1DWWuOw4E4LGde" #Stillsamt mörker
+        mood = "alone"
     elif weather_symbol == 8: #Rain showers
-        song_id = "37i9dQZF1DWVYh7Tdj3ZL8" #En regning dag
+        mood = 'shower'
     elif weather_symbol == 9: #Thunderstorm
-        song_id = "37i9dQZF1DWSlw12ofHcMM" #Swagger
+        mood = 'dark'
     elif weather_symbol == 10: #Light sleet
-        song_id = "37i9dQZF1DWSqBruwoIXkA" #Down in the dumps
+        mood = 'chill'
     elif weather_symbol == 11: #Snow showers
-        song_id = "37i9dQZF1DXbi6K7zACoDU" #Vintermys
+        mood = 'autumn'
     elif weather_symbol == 12: #Rain
-        song_id = "37i9dQZF1DXbvABJXBIyiY" #Rainy day
+        mood = 'rain'
     elif weather_symbol == 13: #Thunder
-        song_id = "37i9dQZF1DX2pSTOxoPbx9" #Dark & Stormy
+        mood = 'thunder'
     elif weather_symbol == 14: #Sleet
-        song_id = "37i9dQZF1DX3YSRoSdA634" #Life sucks
+        mood = 'storm'
     elif weather_symbol == 15: #Snowfall
-        song_id = "37i9dQZF1DX6R7QUWePReA" #Christmas Classics
+        mood = 'winter'
     else:
         print("Something went terrible wrong, sorry!")
 
+    #Skapa en accsess-token som är nödvändig för att komma åt APIt
+    t = requests.post(url, data=body_params, auth = (client_id, client_secret))
+    token = t.json()['access_token']
 
-    #Skapar det som representerar en spellista i Spotifys API
-    uri = ('spotify:user:spotify:playlist:' + song_id)
-    username = uri.split(':')[2]
-    playlist_id = uri.split(':')[4]
+    #Anropet till spotifys API, spotify väljer själv ut 1 spellista beroende på vilket mood som skickas med
+    r = requests.get("https://api.spotify.com/v1/search/?q=" + mood + "&type=playlist&limit=1", headers={"Authorization": "Bearer " + token})
+    #SKA TA BORT DENNA RAD SEDAN print(r.json()['playlists']['items']['name'])
+    data = (r.json())
+    #SKA A BORT DENNA RAD SEDAN print(data)
 
-    #Resulatet från APIt innehållandes all information om listan, kommer ut i json
-    results = sp.user_playlist(username, playlist_id)
+    #Loopar igenom resultatet och plockar ur spellistans namn och url
+    for item in (data["playlists"]['items']):
+        playlist = (item["name"])
+        link = (item['uri'])
 
-    jsonData = json.dumps(results)
-    data = json.loads(jsonData)
-
-    #Skapar en tom lista
-    artist_list = []
-
-    #För varje sak i json-datan ska vi ta ut namnet på artisten och lägga till i artist_list
-    for item in (data["tracks"]["items"]):
-        for i, y in enumerate(item["track"]["artists"]):
-            #print(y["name"])
-            all_artists = (y["name"])
-            artist_list.append(all_artists)
-
-
-    #För att enbart printa ut alla artister i terminalen
-    #for artist in list(set(artist_list)):
-        #print(artist)
-
-    #För att undvika dubletter i artist_list, finns en artist redan i listan så skrivs artisten bara ut en gång
-    artists_in_a_playlist = (list(set(artist_list)))
-    #Får ut namnet på spellistan
-    name_of_playlist = (data["name"])
-    #Skapar länken till spotifys online player
-    player = ("https://open.spotify.com/embed/user/spotify/playlist/" + song_id)
-
-    #Skapar en tom lista
+    #Skapar en tom lista och adderar in spellistans namn och url
     spotify_data = []
-    #Lägger in all nödvändig data i listan
-    spotify_data.append(artists_in_a_playlist)
-    spotify_data.append(name_of_playlist)
-    spotify_data.append(player)
+    spotify_data.append(playlist)
+    spotify_data.append(link)
 
-    #Returnerar lista med alla artister, namnet på spellistan och länken till seplaren
     return spotify_data

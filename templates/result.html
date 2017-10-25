@@ -5,6 +5,7 @@
     <title>Zephyr</title>
   </head>
   <body>
+
     <div id="wrapper">
       <h1>Zephyr</h1>
         <p>This is the results! Du vill åka till {{ city }} där vädret har symbolen {{ weather_symbol }} och temperaturen är {{ temp }} grader.
@@ -14,13 +15,8 @@
         Så här ser ditt väder ut:
         <img src="{{ picture }}" alt="weather">
       <h2>LYSSNA HÄR: </h2>
-      <iframe src="{{ player }}" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+      <iframe src="https://open.spotify.com/embed?uri={{ link }}" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
 
-      <h2>Följande artister finns med på spellistan: </h2>
-        <ul>{% for artist in artists_in_a_playlist %}
-            <li>{{ artist }}</li>
-            {% endfor %}
-        </ul>
         <h2>LYSSNA HÄR: </h2>
     </div>
   </body>
