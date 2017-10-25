@@ -4,8 +4,8 @@ HOST: http://polls.apiblueprint.org/
 # Zephyr
 
 Zephyr är ett API vars funktioner ger användaren en musiklista väl anpassat till
-det nuvarande vädret. Det är en mobil applikaion där användaren anger på vilken ort
-hen befinner sig. Ortsnamnet skickas med som parameter till Google maps API och
+det nuvarande vädret. Det är en mobil applikaion där användaren anger  vilken ort
+hen befinner sig på. Ortsnamnet skickas med som parameter till Google maps API och
 returnerar de korrekta kordinaterna som därefter skickas vidare till SMHI´s API. SMHI
 returnerar den aktuella temperaturen samt vilket väder det är just nu. Det finns 15
 olika väderalternativ, från helt klart till åska. Vädret anger ett specifikt "moode"
@@ -15,18 +15,264 @@ från de tre API:n skickas i JSON. Applikationen är byggd i python, HTML och CS
 
 
 ## Koordinater [/'https://maps.googleapis.com/maps/api/geocode/json?address='+ city + '&key=' + api_key]
-Med namn på vald stad kan rätt koordinater hämntas från SMHI´s API. För att få åtkomst till
-SMHI´s API krävs en API_KEY. Denne ska skickas med i förfrågan för att SMHI ska returnera
-koordinaterna.
+Med namnet på vald stad kan rätt koordinater hämntas från Google maps API. För att få åtkomst till
+Google maps API krävs en API_KEY. Denne ska skickas med i förfrågan för att Google maps ska returnera
+koordinaterna. I den Json som returneras kommer "lat" och "lng" att hämtas ut. 
 
 ### Hämta vald stads koordinater från SMHI [GET]
 + parameters 
     + city: I följande exempel är den valda parametern Malmö. 
-    city är en variabel som innehåller den stad användaren har angivit i
+    City är en variabel som innehåller namne på den stad som användaren har angivit i
     ett formulär att hen befinner sig i. Variabeln skickas med som parameter till
-    till funktionen get_coordinates (`1`)
+    till funktionen get_coordinates där koordinaterna ska returneras (`1`)
 + response 200 (application/json)
+        [   
+            {
+                'address_components': [
+                        {
+                            'long_name': 'Malmö', 
+                            'short_name': 'Malmö', 
+                            'types': [
+                                'locality', 
+                                'political'
+                            ]
+                        }, 
+                        {
+                            'long_name': 'Skåne County', 
+                            'short_name': 'Skåne County', 
+                            'types': [
+                                'administrative_area_level_1', 
+                                'political'
+                            ]
+                        },
+                        {
+                            'long_name': 'Sweden', 
+                            'short_name': 'SE', 
+                            'types': [
+                                'country', 
+                                'political'
+                            ]
+                        }
+                ], 
+                'formatted_address': 'Malmö, Sweden', 
+                'geometry': {
+                    'bounds': {
+                        'northeast': {
+                            'lat': 55.639951, 
+                            'lng': 13.1507609
+                        }, 
+                        'southwest': {
+                            'lat': 55.500386, 
+                            'lng': 12.8811839
+                        }
+                    }, 
+                    'location': {
+                        'lat': 55.604981, 
+                        'lng': 13.003822
+                    }, 
+                    'location_type': 'APPROXIMATE', 
+                    'viewport': {
+                        'northeast': {
+                            'lat': 55.639951, 
+                            'lng': 13.1507609
+                        }, 
+                        'southwest': {
+                            'lat': 55.500386, 
+                            'lng': 12.8811839
+                        }
+                    }
+                }, 
+                'place_id': 'ChIJ_5HEdKUFU0YR5YhIvd8FqdM', 
+                'types': [
+                    'locality', 'political'
+                ]
+            }
+        ]
 + response 404 (html)
+to be continued in this fantastic farytail
+
+
+## Väderprognos [/'opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/' + longitude + '/lat/' + latitude + '/data.json']
+
+### Hämta vald stads koordinater från SMHI [GET]
++ parameters 
+    + longitude: I följande exempel är longitude 13.003822. Longitude hämtas från den JSON som 
+    returneras från Google maps API. Den finns under Geometry, location, ***lng***. För att 'lng'
+    ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`2`)
+    + latitude: I följande exempel är latitude 55.604981. Latitude hämtas från den JSON som 
+    returneras från Google maps API. Den finns under Geometry, location, ***lat***. För att 'lat'
+    ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`3`)
+    + validTime: I följande exempel på "response 200" visas endast validTime: 2017-10-25T22:00:00Z. 
+    Det eftersom den fullständiga JSON som egentligen returneras anger alla väderattribut för
+    varje timme. (`4`)
++ response 200 (application/json)
+        {   
+            'validTime': '2017-10-25T22:00:00Z', 
+            'parameters': [
+                {
+                    'name': 'msl', 
+                    'levelType': 'hmsl', 
+                    'level': 0, 
+                    'unit': 'hPa', 
+                    'values': [
+                        1015.5
+                    ]
+                }, 
+                {
+                    'name': 't', 
+                    'levelType': 'hl', 
+                    'level': 2, 
+                    'unit': 'Cel', 
+                    'values': [
+                        11.6
+                    ]
+                }, 
+                {   
+                    'name': 'vis', 
+                    'levelType': 'hl', 
+                    'level': 2, 
+                    'unit': 'km', 
+                    'values': [
+                        10.8
+                    ]
+                }, 
+                {
+                    'name': 'wd', 
+                    'levelType': 'hl', 
+                    'level': 10, 
+                    'unit': 'degree', 
+                    'values': [
+                        278
+                    ]
+                }, 
+                {
+                    'name': 'ws', 
+                    'levelType': 'hl', 
+                    'level': 10, 
+                    'unit': 'm/s', 
+                    'values': [
+                        6.4
+                    ]
+                }, 
+                {   
+                    'name': 'r', 
+                    'levelType': 'hl', 
+                    'level': 2, 
+                    'unit': 'percent', 
+                    'values':[
+                        84
+                    ]
+                }, 
+                {   
+                    'name': 'tstm', 
+                    'levelType': 'hl', 
+                    'level': 0, 
+                    'unit': 'percent',
+                    'values': [
+                        0
+                    ]
+                }, 
+                {
+                    'name': 'tcc_mean', 
+                    'levelType': 'hl', 
+                    'level': 0, 
+                    'unit': 'octas', 
+                    'values': [
+                        8
+                    ]
+                }, 
+                {   
+                    'name': 'lcc_mean', 
+                    'levelType': 'hl', 
+                    'level': 0, 
+                    'unit': 'octas', 
+                    'values': [
+                        8
+                    ]
+                }, 
+                {
+                    'name': 'mcc_mean', 
+                    'levelType': 'hl', 
+                    'level': 0, 
+                    'unit': 'octas', 
+                    'values': [
+                        0
+                    ]
+                }, 
+                {
+                    'name': 'hcc_mean', 
+                    'levelType': 'hl', 
+                    'level': 0, 
+                    'unit': 'octas', 
+                    'values': [
+                        1
+                    ]
+                }, 
+                {
+                    'name': 'gust', 
+                    'levelType': 'hl', 
+                    'level': 10, 
+                    'unit': 'm/s', 
+                    'values': [
+                        12.6
+                    ]
+                }, 
+                {   
+                    'name': 'pmin', 
+                    'levelType': 'hl', 
+                    'level': 0, 
+                    'unit': 'kg/m2/h', 
+                    'values': [
+                        0.0
+                    ]
+                }, {'name': 'pmax', 'levelType': 'hl', 'level': 0, 'unit': 'kg/m2/h', 'values': [0.0]}, {'name': 'spp', 'levelType': 'hl', 'level': 0, 'unit': 'percent', 'values': [-9]}, {'name': 'pcat', 'levelType': 'hl', 'level': 0, 'unit': 'category', 'values': [0]}, {'name': 'pmean', 'levelType': 'hl', 'level': 0, 'unit': 'kg/m2/h', 'values': [0.0]}, {'name': 'pmedian', 'levelType': 'hl', 'level': 0, 'unit': 'kg/m2/h', 'values': [0.0]}, {'name': 'Wsymb', 'levelType': 'hl', 'level': 0, 'unit': 'category', 'values': [4]}]}, 
++ response 404
+
+
+
+## Vädersymbol [/PASS']
+
+### Hämta vald stads koordinater från SMHI [GET]
++ parameters 
+    + longitude: I följande exempel är longitude 13.003822. Longitude hämtas från den JSON som 
+    returneras från Google maps API. Den finns under Geometry, location, ***lng***. För att 'lng'
+    ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`2`)
+    + latitude: I följande exempel är latitude 55.604981. Latitude hämtas från den JSON som 
+    returneras från Google maps API. Den finns under Geometry, location, ***lat***. För att 'lat'
+    ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`3`)
+    + validTime: I följande exempel på "response 200" visas endast validTime: 2017-10-25T22:00:00Z. 
+    Det eftersom den fullständiga JSON som egentligen returneras anger alla väderattribut för
+    varje timme. (`4`)
++ response 200 (application/json)
+        {   
+            'validTime': '2017-10-25T22:00:00Z', 
+            
+
+
+
+## Spotify [/'opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/' + longitude + '/lat/' + latitude + '/data.json']
+
+### Hämta vald stads koordinater från SMHI [GET]
++ parameters 
+    + longitude: I följande exempel är longitude 13.003822. Longitude hämtas från den JSON som 
+    returneras från Google maps API. Den finns under Geometry, location, ***lng***. För att 'lng'
+    ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`2`)
+    + latitude: I följande exempel är latitude 55.604981. Latitude hämtas från den JSON som 
+    returneras från Google maps API. Den finns under Geometry, location, ***lat***. För att 'lat'
+    ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`3`)
+    + validTime: I följande exempel på "response 200" visas endast validTime: 2017-10-25T22:00:00Z. 
+    Det eftersom den fullständiga JSON som egentligen returneras anger alla väderattribut för
+    varje timme. (`4`)
++ response 200 (application/json)
+        {   
+            'validTime': '2017-10-25T22:00:00Z', 
+
+
+
+
+
+
+
 
 ## Questions Collection [/questions]
 
