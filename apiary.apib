@@ -13,8 +13,21 @@ till spotify som returnerar en passande spellista. Användaren får på egen han
 in på spotify och Zephyr har inte någon delaktighet i den inloggningen. Alla svar 
 från de tre API:n skickas i JSON. Applikationen är byggd i python, HTML och CSS.
 
-##
-G
+
+## Koordinater [/'https://maps.googleapis.com/maps/api/geocode/json?address='+ city + '&key=' + api_key]
+Med namn på vald stad kan rätt koordinater hämntas från SMHI´s API. För att få åtkomst till
+SMHI´s API krävs en API_KEY. Denne ska skickas med i förfrågan för att SMHI ska returnera
+koordinaterna.
+
+### Hämta vald stads koordinater från SMHI [GET]
++ parameters 
+    + city: I följande exempel är den valda parametern Malmö. 
+    city är en variabel som innehåller den stad användaren har angivit i
+    ett formulär att hen befinner sig i. Variabeln skickas med som parameter till
+    till funktionen get_coordinates (`1`)
++ response 200 (application/json)
++ response 404 (html)
+
 ## Questions Collection [/questions]
 
 ### List All Questions [GET]
