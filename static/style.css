@@ -1,0 +1,196 @@
+body{
+  background-color: #eeeeee;
+  font-family: 'Lato', sans-serif;
+  background: #eee; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, MediumVioletRed, SkyBlue); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, MediumVioletRed, SkyBlue); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, MediumVioletRed, SkyBlue); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, MediumVioletRed, SkyBlue); /* Standard syntax (must be last) */
+  color: #fff;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 800px;
+
+}
+
+/* Menyn är header för sidan*/
+body > header{
+  height: 50px;
+  line-height: 50px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  max-width: 2000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body > header > nav{
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 10px;
+}
+
+/* själva menyn*/
+#menu{
+  margin: 0px;
+  padding: 0px;
+  float: right;
+}
+
+#menu >li{
+  float: left;
+  list-style: none;
+}
+
+#menu > li > a{
+  padding: 0 30px;
+  text-decoration: none;
+  color: #fff;
+}
+
+#menu > li > a:hover{
+  transition: 0.3s all;
+  color: MediumVioletRed;
+}
+
+#go-back{
+  font-size: 28px;
+  text-decoration: none;
+  float: left;
+  color: #fff;
+}
+
+#go-back:hover{
+  transition: 0.3s all;
+  color: SkyBlue;
+}
+
+#box > h1{
+  font-size: 94px;
+  text-align: center;
+  margin-bottom: 0px;
+  font-weight: 300;
+  margin-top: 10px;
+}
+
+#box > h3{
+  font-size: 24px;
+  text-align: center;
+  margin-top: 0px;
+  font-weight: 300;
+
+}
+
+/* själva stora bilden på framsidan*/
+#box {
+  width: 40%;
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
+  max-width: 2000px;
+  margin: 5% auto 10% auto;
+  box-shadow: 0 0 5px;
+  text-align: center;
+  padding: 5%;
+  font-size: 20px;
+  border-radius: 5px;
+  /*background-color: rgba(230, 230, 230, 0.4);*/
+  font-family: 'Lato', sans-serif;
+}
+
+#box > h3{
+  font-size: 24px;
+}
+
+#city{
+  height: 30px;
+  width: 50%;
+  text-align: center;
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  border-radius: 2px;
+  padding:8px;
+  border:none;
+  background-color: transparent;
+  border-bottom: dotted 1px;
+  color: #fff;
+}
+*::-webkit-input-placeholder {
+    color: #fff;
+}
+*:-moz-placeholder {
+    /* FF 4-18 */
+    color: #fff;
+}
+*::-moz-placeholder {
+    /* FF 19+ */
+    color: #fff;
+}
+*:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #fff;
+}
+
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: MediumVioletRed;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+  width: 150px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  font-family: 'Lato', sans-serif;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+#symbol{
+  width: 100px;
+  height: 100px;
+}
+
+/*sdians footer */
+footer{
+  max-width: 2000px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  clear: both;
+  margin-bottom: 0px;
+}
+
+footer >p{
+  margin-top: 0;
+}

@@ -2,22 +2,28 @@
 <html lang="sv">
   <head>
     <meta charset="utf-8">
-    <title>Zephyr</title>
+    <title>Lyssna- Zephyr</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
   </head>
   <body>
+    <header>
+      <nav>
+        <a href="/" id="go-back">&#x21DC; Ny sökning</a>
+      </nav>
+    </header>
 
-    <div id="wrapper">
+    <div id="box">
       <h1>Zephyr</h1>
-        <p>This is the results! Du vill åka till {{ city }} där vädret har symbolen {{ weather_symbol }} och temperaturen är {{ temp }} grader.
-        Zephyr har hittat en svinbra lista till dig som heter <strong>{{ name_of_playlist }}</strong>.
-        Listan passar perfekt för vädret i {{ city }}.
-        Enjoy!</p>
-        Så här ser ditt väder ut:
-        <img src="{{ picture }}" alt="weather">
-      <h2>LYSSNA HÄR: </h2>
-      <iframe src="https://open.spotify.com/embed?uri={{ link }}" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+        <h3>{{ city }} {{ temp }}&#8451;</h3>
+        <img src="{{ picture }}" alt="weather" id="symbol">
 
-        <h2>LYSSNA HÄR: </h2>
+        <p>Den perfekta listan för dig är <strong>{{ name_of_playlist }}</strong>. Njut!</p>
+      <iframe src="https://open.spotify.com/embed?uri={{ link }}&theme=white" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
     </div>
+
+    <footer>
+      <p>&copy; Copyright Zephyr 2017</p>
+    </footer>
   </body>
 </html>

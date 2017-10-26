@@ -16,6 +16,12 @@ def start():
     #visar startsidan där stad väljs, skickas vidare till route result
     return render_template("index.html")
 
+@app.route('/about')
+def info():
+    #visar infosida om oss skapare
+    return render_template("about.html")
+
+
 @app.route('/result/', methods=['GET','POST'])
 def find_city():
     # hämtar vilken stad som har angivits i formuläret
