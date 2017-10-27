@@ -17,7 +17,8 @@ från de tre API:n skickas i JSON. Applikationen är byggd i python, HTML och CS
 ## Koordinater [/'https://maps.googleapis.com/maps/api/geocode/json?address='+ city + '&key=' + api_key]
 Med namnet på vald stad kan rätt koordinater hämntas från Google maps API. För att få åtkomst till
 Google maps API krävs en API_KEY. Denne ska skickas med i förfrågan för att Google maps ska returnera
-koordinaterna. I den Json som returneras kommer "lat" och "lng" att hämtas ut. 
+koordinaterna. I den Json som returneras kommer "lat" och "lng" att hämtas ut. De finns under 
+'Geometry', 'Location'.
 
 ### Hämta vald stads koordinater från SMHI [GET]
 + parameters 
@@ -92,7 +93,92 @@ koordinaterna. I den Json som returneras kommer "lat" och "lng" att hämtas ut.
 to be continued in this fantastic farytail
 
 
+## Giltig tid [/'opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/validtime.json']
+När ett GET-anrop görs till SMHI för att hämta väderinformation returneras ett väldigt stort
+stycke JSON. Stor del av informationen är onödig och därför görs först det här anropet där den 
+aktuella tiden hämtas ut. En lista på alla dygnets timmar finns tillgänglig och den första som
+är den närmast aktuell tid hämtas ut. Med den specifika tiden är det möjligt att i nästa anrop hämta ut
+endast den aktuella väderinformationen. 
+
+### Hämta giltig tid [GET]
+
++ response 200 (application/json)
+        {
+            "validTime":[
+                "2017-10-27T22:00:00Z",
+                "2017-10-27T23:00:00Z",
+                "2017-10-28T00:00:00Z",
+                "2017-10-28T01:00:00Z",
+                "2017-10-28T02:00:00Z",
+                "2017-10-28T03:00:00Z",
+                "2017-10-28T04:00:00Z",
+                "2017-10-28T05:00:00Z",
+                "2017-10-28T06:00:00Z",
+                "2017-10-28T07:00:00Z",
+                "2017-10-28T08:00:00Z",
+                "2017-10-28T09:00:00Z",
+                "2017-10-28T10:00:00Z",
+                "2017-10-28T11:00:00Z",
+                "2017-10-28T12:00:00Z",
+                "2017-10-28T13:00:00Z",
+                "2017-10-28T14:00:00Z",
+                "2017-10-28T15:00:00Z",
+                "2017-10-28T16:00:00Z",
+                "2017-10-28T17:00:00Z",
+                "2017-10-28T18:00:00Z",
+                "2017-10-28T19:00:00Z",
+                "2017-10-28T20:00:00Z",
+                "2017-10-28T21:00:00Z",
+                "2017-10-28T22:00:00Z",
+                "2017-10-28T23:00:00Z",
+                "2017-10-29T00:00:00Z",
+                "2017-10-29T01:00:00Z",
+                "2017-10-29T02:00:00Z",
+                "2017-10-29T03:00:00Z",
+                "2017-10-29T04:00:00Z",
+                "2017-10-29T05:00:00Z",
+                "2017-10-29T06:00:00Z",
+                "2017-10-29T07:00:00Z",
+                "2017-10-29T08:00:00Z",
+                "2017-10-29T09:00:00Z",
+                "2017-10-29T10:00:00Z",
+                "2017-10-29T11:00:00Z",
+                "2017-10-29T12:00:00Z",
+                "2017-10-29T15:00:00Z",
+                "2017-10-29T18:00:00Z",
+                "2017-10-29T21:00:00Z",
+                "2017-10-30T00:00:00Z",
+                "2017-10-30T06:00:00Z",
+                "2017-10-30T12:00:00Z",
+                "2017-10-30T18:00:00Z",
+                "2017-10-31T00:00:00Z",
+                "2017-10-31T06:00:00Z",
+                "2017-10-31T12:00:00Z",
+                "2017-10-31T18:00:00Z",
+                "2017-11-01T00:00:00Z",
+                "2017-11-01T06:00:00Z",
+                "2017-11-01T12:00:00Z",
+                "2017-11-01T18:00:00Z",
+                "2017-11-02T00:00:00Z",
+                "2017-11-02T06:00:00Z",
+                "2017-11-02T12:00:00Z",
+                "2017-11-03T00:00:00Z",
+                "2017-11-03T12:00:00Z",
+                "2017-11-04T00:00:00Z",
+                "2017-11-04T12:00:00Z",
+                "2017-11-05T00:00:00Z",
+                "2017-11-05T12:00:00Z",
+                "2017-11-06T00:00:00Z"
+                ]
+            }
+
+
 ## Väderprognos [/'opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/' + longitude + '/lat/' + latitude + '/data.json']
+En GET-föfrågan görs till smhi´s API med parametrarna longitude och latitude från Google maps
+API samt ValidTime som har hämtats i föregående anrop till SMHI. Av all returnerad JSON hämtas två
+parametrar ut. 'name': 't' anger den aktuella temperaturen och 'name': 'Wsymb' anger
+vädersymbolen för vädret. Båda dessa parametrar sparas och används i html/css presentationen för
+användaren i resultatet.
 
 ### Hämta vald stads koordinater från SMHI [GET]
 + parameters 
@@ -225,125 +311,75 @@ to be continued in this fantastic farytail
                     'values': [
                         0.0
                     ]
-                }, {'name': 'pmax', 'levelType': 'hl', 'level': 0, 'unit': 'kg/m2/h', 'values': [0.0]}, {'name': 'spp', 'levelType': 'hl', 'level': 0, 'unit': 'percent', 'values': [-9]}, {'name': 'pcat', 'levelType': 'hl', 'level': 0, 'unit': 'category', 'values': [0]}, {'name': 'pmean', 'levelType': 'hl', 'level': 0, 'unit': 'kg/m2/h', 'values': [0.0]}, {'name': 'pmedian', 'levelType': 'hl', 'level': 0, 'unit': 'kg/m2/h', 'values': [0.0]}, {'name': 'Wsymb', 'levelType': 'hl', 'level': 0, 'unit': 'category', 'values': [4]}]}, 
-+ response 404
-
-
-
-## Vädersymbol [/PASS']
-
-### Hämta vald stads koordinater från SMHI [GET]
-+ parameters 
-    + longitude: I följande exempel är longitude 13.003822. Longitude hämtas från den JSON som 
-    returneras från Google maps API. Den finns under Geometry, location, ***lng***. För att 'lng'
-    ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`2`)
-    + latitude: I följande exempel är latitude 55.604981. Latitude hämtas från den JSON som 
-    returneras från Google maps API. Den finns under Geometry, location, ***lat***. För att 'lat'
-    ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`3`)
-    + validTime: I följande exempel på "response 200" visas endast validTime: 2017-10-25T22:00:00Z. 
-    Det eftersom den fullständiga JSON som egentligen returneras anger alla väderattribut för
-    varje timme. (`4`)
-+ response 200 (application/json)
-        {   
-            'validTime': '2017-10-25T22:00:00Z', 
-            
-
-
-
-## Spotify [/'opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/' + longitude + '/lat/' + latitude + '/data.json']
-
-### Hämta vald stads koordinater från SMHI [GET]
-+ parameters 
-    + longitude: I följande exempel är longitude 13.003822. Longitude hämtas från den JSON som 
-    returneras från Google maps API. Den finns under Geometry, location, ***lng***. För att 'lng'
-    ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`2`)
-    + latitude: I följande exempel är latitude 55.604981. Latitude hämtas från den JSON som 
-    returneras från Google maps API. Den finns under Geometry, location, ***lat***. För att 'lat'
-    ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`3`)
-    + validTime: I följande exempel på "response 200" visas endast validTime: 2017-10-25T22:00:00Z. 
-    Det eftersom den fullständiga JSON som egentligen returneras anger alla väderattribut för
-    varje timme. (`4`)
-+ response 200 (application/json)
-        {   
-            'validTime': '2017-10-25T22:00:00Z', 
-
-
-
-
-
-
-
-
-## Questions Collection [/questions]
-
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
+                }, 
+                {
+                    'name': 'pmax', 
+                    'levelType': 'hl', 
+                    'level': 0, 
+                    'unit': 'kg/m2/h', 
+                    'values': [
+                        0.0
+                    ]
+                }, 
+                {
+                    'name': 'spp', 
+                    'levelType': 'hl', 
+                    'level': 0, 
+                    'unit': 'percent', 
+                    'values': [
+                        -9
+                    ]
+                }, 
+                {   
+                    'name': 'pcat', 
+                    'levelType': 'hl', 
+                    'level': 0, 
+                    'unit': 'category', 
+                    'values': [
+                        0
+                    ]
+                }, 
+                {
+                    'name': 'pmean', 
+                    'levelType': 'hl', 
+                    'level': 0, 
+                    'unit': 'kg/m2/h', 
+                    'values': [
+                        0.0
+                    ]
+                }, 
+                {
+                    'name': 'pmedian', 
+                    'levelType': 'hl', 
+                    'level': 0, 
+                    'unit': 'kg/m2/h', 
+                    'values': [
+                        0.0
+                    ]
+                }, 
+                {
+                    'name': 'Wsymb', 
+                    'levelType': 'hl', 
+                    'level': 0, 
+                    'unit': 'category', 
+                    'values': [
+                        4
+                    ]
+                }
             ]
-        }
+        },
++ response 404
+to be continuued
 
-+ Response 201 (application/json)
 
-    + Headers
 
-            Location: /questions/2
 
-    + Body
+## Spotify [/'api.spotify.com/v1/search/?q=" + mood + "&type=playlist&limit=1", headers={"Authorization": "Bearer " + token}']
 
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+### Hämta  [GET]
++ parameters 
+    + mood
+    +
++ response 200 (application/json)
+        {   
+            'validTime': '2017-10-25T22:00:00Z',
