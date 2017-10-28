@@ -371,24 +371,84 @@ användaren i resultatet.
 + response 404
 to be continuued
 
-## Tillgång till spotify [/'url, data=body_params, auth = (client_id, client_secret)']
+## Tillgång till spotify [/'url, data= body_params, auth = ( client_id , client_secret )']
 För att få tillgång till spotify´s API måste några parametrar hämtas in. Dessa kommer sedan samlas
 i en variabel som skickas med i nästa anrop till spotify.
-### Skapa tillgång till spotify [POST]
+
+### Hämta tillgång till spotify [POST]
 + parameters
-    + Url: 'https://accounts.spotify.com/api/token'
-    Anropet till APIt utgår ifrån en specifik URL som är följande: 
-    + Body params: grant_type: client_credentials}
-    Fölljande parameter är nödvändig för att anropet till Spotify ska lyckas.
+    + Url:'https://accounts.spotify.com/api/token'
+    Anropet till APIt utgår ifrån en specifik URL som är följande. 
+    + Body params:innehåller 'grant type: client credentials'
+    Parametern är nödvändig för att anropet till Spotify ska lyckas.
     + Client id: Zephyrs specifika client id är: 'c7c574d9d26b448789d562cc1af24406'
     För att Zephyr ska få tillgång till Spotifys API krävs ett unikt client id.
-    + Client secret: Zephyrs specifika client secret är: '4082946357c043c2b959cfb557337f27'
+    + Client secret:  Zephyrs specifika client secret är: '4082946357c043c2b959cfb557337f27'
     För att Zephyr ska få tillgång till Spotifys API krävs ett unikt client secret.
++ response 200
+to be continued
++ response 404
+to be continued 
 
 ## Spotify [/'api.spotify.com/v1/search/?q=" + mood + "&type=playlist&limit=1", headers={"Authorization": "Bearer " + token}']
-
-### Hämta  [GET]
+I väderprognosen hämtas 'name': 'Wsymb' ut som definierar det aktuella vädret. I en funktion omvandlas
+vädret till spotifys mood. Alla 15 olika typer av väder får ett unikt mood som skickas med i GET-förfrågan
+till spotify. För att få tillgång till spotifys API behövs parametrarna från föregående
+anrop och därför har de sparats i en egen variabel. Beroende på vilket mood som skickas med så
+kommer spotify att returnera olika passande listor till användaren. 
+### Hämta passande spellista [GET]
 + parameters 
-    + mood
-    + token
+    + Mood: I följande exempel har vädret symbolen "Variable cloudiness" vilket ger mood: "sunshine"
+    Beroende på vilken vädersymbol som returneras från SMHI kommer ett av 15 olika mood att väljas.
+    Det skickas sedan med som en parameter i följande GET-request till SMHI´s API för att få
+    ut en passande spellista
+    + Token : 
+    Är de samlade parametrarna från föregående anrop till spotify, innehållande url, body params,
+    client id och client secret som alla krävs för att få tillgång till spotifys API.
 + response 200 (application/json)
+        {
+            'playlists': {
+                'href': 'https://api.spotify.com/v1/search?query=sunshine&type=playlist&offset=0&limit=1', 
+                'items': [
+                    {
+                        'collaborative': False, 
+                        'external_urls': {
+                            'spotify': 'http://open.spotify.com/user/spotify/playlist/37i9dQZF1DXbwoaqxaoAVr'
+                        }, 
+                        'href': 'https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DXbwoaqxaoAVr', 
+                        'id': '37i9dQZF1DXbwoaqxaoAVr', 
+                        'images': [
+                            {
+                                'height': 300, 
+                                'url': 'https://i.scdn.co/image/f631e9f2503bc8aaadd8e177069dbf1d2e9a9c30', 
+                                'width': 300
+                            }
+                        ], 
+                        'name': 'Sunshine Reggae', 
+                        'owner': {
+                            'display_name': 'Spotify', 
+                            'external_urls': {
+                                'spotify': 'http://open.spotify.com/user/spotify'
+                            }, 
+                            'href': 'https://api.spotify.com/v1/users/spotify', 
+                            'id': 'spotify', 
+                            'type': 'user', 
+                            'uri': 'spotify:user:spotify'
+                        }, 
+                        'public': None, 
+                        'snapshot_id': 'FsQLZJd2KKeXYFUWvU5WKpGTTrFsadHqkJOLbFeWDNKZuQsClmfJUf5rVytCh/projgrLhzPVww=', 
+                        'tracks': {
+                            'href': 'https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DXbwoaqxaoAVr/tracks', 
+                            'total': 50
+                        }, 
+                        'type': 'playlist', 
+                        'uri': 'spotify:user:spotify:playlist:37i9dQZF1DXbwoaqxaoAVr'
+                    }
+                ], 
+                'limit': 1, 
+                'next': 'https://api.spotify.com/v1/search?query=sunshine&type=playlist&offset=1&limit=1', 
+                'offset': 0, 
+                'previous': None, 
+                'total': 19408
+            }
+        }
