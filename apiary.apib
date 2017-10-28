@@ -3,7 +3,7 @@ HOST: http://polls.apiblueprint.org/
 
 # Zephyr
 
-Zephyr är ett API vars funktioner ger användaren en musiklista väl anpassat till
+Zephyr är ett API vars funktioner ger användaren en musiklista väl anpassad till
 det nuvarande vädret. Det är en mobil applikaion där användaren anger  vilken ort
 hen befinner sig på. Ortsnamnet skickas med som parameter till Google maps API och
 returnerar de korrekta kordinaterna som därefter skickas vidare till SMHI´s API. SMHI
@@ -182,13 +182,13 @@ användaren i resultatet.
 
 ### Hämta vald stads koordinater från SMHI [GET]
 + parameters 
-    + longitude: I följande exempel är longitude 13.003822. Longitude hämtas från den JSON som 
-    returneras från Google maps API. Den finns under Geometry, location, ***lng***. För att 'lng'
-    ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`2`)
-    + latitude: I följande exempel är latitude 55.604981. Latitude hämtas från den JSON som 
-    returneras från Google maps API. Den finns under Geometry, location, ***lat***. För att 'lat'
+    + longitude: I följande exempel är longitude 13.003822. 
+    Longitude hämtas från den JSON som returneras från Google maps API. Den finns under Geometry,
+    location, ***lng***. För att 'lng' ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`2`)
+    + latitude: I följande exempel är latitude 55.604981. 
+    Latitude hämtas från den JSON som returneras från Google maps API. Den finns under Geometry, location, ***lat***. För att 'lat'
     ska fungera i SMHI´s API sätts en maxgräns på 6 decimaler.(`3`)
-    + validTime: I följande exempel på "response 200" visas endast validTime: 2017-10-25T22:00:00Z. 
+    + validTime: I följande exempel på "response 200" visas endast validTime: 2017 10 25T22:00:00Z. 
     Det eftersom den fullständiga JSON som egentligen returneras anger alla väderattribut för
     varje timme. (`4`)
 + response 200 (application/json)
@@ -371,15 +371,24 @@ användaren i resultatet.
 + response 404
 to be continuued
 
-
-
+## Tillgång till spotify [/'url, data=body_params, auth = (client_id, client_secret)']
+För att få tillgång till spotify´s API måste några parametrar hämtas in. Dessa kommer sedan samlas
+i en variabel som skickas med i nästa anrop till spotify.
+### Skapa tillgång till spotify [POST]
++ parameters
+    + Url: 'https://accounts.spotify.com/api/token'
+    Anropet till APIt utgår ifrån en specifik URL som är följande: 
+    + Body params: grant_type: client_credentials}
+    Fölljande parameter är nödvändig för att anropet till Spotify ska lyckas.
+    + Client id: Zephyrs specifika client id är: 'c7c574d9d26b448789d562cc1af24406'
+    För att Zephyr ska få tillgång till Spotifys API krävs ett unikt client id.
+    + Client secret: Zephyrs specifika client secret är: '4082946357c043c2b959cfb557337f27'
+    För att Zephyr ska få tillgång till Spotifys API krävs ett unikt client secret.
 
 ## Spotify [/'api.spotify.com/v1/search/?q=" + mood + "&type=playlist&limit=1", headers={"Authorization": "Bearer " + token}']
 
 ### Hämta  [GET]
 + parameters 
     + mood
-    +
+    + token
 + response 200 (application/json)
-        {   
-            'validTime': '2017-10-25T22:00:00Z',
