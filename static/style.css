@@ -67,6 +67,23 @@ body > header > nav{
   color: SkyBlue;
 }
 
+/* själva stora bilden på framsidan*/
+#box {
+  width: 40%;
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
+  max-width: 2000px;
+  margin: 5% auto 10% auto;
+  box-shadow: 0 0 5px;
+  text-align: center;
+  padding: 5%;
+  font-size: 22px;
+  border-radius: 5px;
+  /*background-color: rgba(230, 230, 230, 0.4);*/
+  font-family: 'Lato', sans-serif;
+}
+
 #box > h1{
   font-size: 94px;
   text-align: center;
@@ -80,28 +97,9 @@ body > header > nav{
   text-align: center;
   margin-top: 0px;
   font-weight: 300;
-
 }
-
-/* själva stora bilden på framsidan*/
-#box {
-  width: 40%;
-  background-position: center;
-  background-size: cover;
-  overflow: hidden;
-  max-width: 2000px;
-  margin: 5% auto 10% auto;
-  box-shadow: 0 0 5px;
-  text-align: center;
-  padding: 5%;
-  font-size: 20px;
-  border-radius: 5px;
-  /*background-color: rgba(230, 230, 230, 0.4);*/
-  font-family: 'Lato', sans-serif;
-}
-
-#box > h3{
-  font-size: 24px;
+#box > p{
+  font-size: 15px;
 }
 
 #city{
@@ -175,8 +173,8 @@ body > header > nav{
 }
 
 #symbol{
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 60px;
 }
 
 /*sdians footer */
@@ -193,4 +191,87 @@ footer{
 
 footer >p{
   margin-top: 0;
+}
+
+@media screen and (max-width: 600px){
+  #box {
+    width: 80%;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+    max-width: 2000px;
+    margin: 20% auto 10% auto;
+    box-shadow: 0 0 5px;
+    text-align: center;
+    padding: 5%;
+    font-size: 20px;
+    border-radius: 5px;
+    /*background-color: rgba(230, 230, 230, 0.4);*/
+    font-family: 'Lato', sans-serif;
+  }
+
+  #box > h1{
+    font-size: 70px;
+    text-align: center;
+    margin-bottom: 0px;
+    font-weight: 300;
+    margin-top: 10px;
+  }
+
+  #box > h3{
+    font-size: 18px;
+    text-align: center;
+    margin-top: 0px;
+    font-weight: 300;
+  }
+
+  #city{
+    height: 30px;
+    width: 50%;
+    text-align: center;
+    font-size: 13px;
+    font-family: 'Lato', sans-serif;
+    border-radius: 2px;
+    padding:8px;
+    border:none;
+    background-color: transparent;
+    border-bottom: dotted 1px;
+    color: #fff;
+  }
+
+  #menu{
+    margin: 0px;
+    padding: 0px;
+    float: right;
+  }
+
+  #menu >li{
+    float: left;
+    list-style: none;
+    margin-top: 25px;
+  }
+
+  #menu > li > a{
+    padding: 0 30px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+  }
+
+  #go-back{
+    font-size: 20px;
+    text-decoration: none;
+    float: left;
+    color: #fff;
+  }
+  body > header{
+    position: relative;
+  }
+#box > iframe{
+  width: 100%;
+}
+
+#symbol{
+  width: 80px;
+  height: 60px;
 }
