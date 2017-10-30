@@ -16,11 +16,11 @@ def get_coordinates(city):
 	coordinates = results[0]['geometry']['location']
 
 	# Koordinaterna måste göras om till strängar och får max ha 6st decimaler för att fungera med SMHI's API
-	longitude = str(round(coordinates['lng'], 6))
 	latitude = str(round(coordinates['lat'], 6))
+	longitude = str(round(coordinates['lng'], 6))
 
 	# Lägger koordinaterna i en lista
-	coordinates_list = [longitude, latitude]
+	coordinates_list = [latitude, longitude]
 
 	# Returnerar listan
 	return coordinates_list
