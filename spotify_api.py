@@ -70,5 +70,6 @@ def get_spotify_info(weather_symbol):
     spotify_data = []
     spotify_data.append(playlist)
     spotify_data.append(link)
+    spotify_data.append(mood)
 
     return spotify_data

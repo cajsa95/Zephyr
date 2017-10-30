@@ -10,11 +10,40 @@ from flask import Flask, request, render_template
 from flask import *
 
 app = Flask(__name__)
+prefix = '/api/v1'
+
+
+@app.route(prefix + '/info_about/<city>', methods=['GET'])
+def zephyr_api(city):
+    coordinates = get_coordinates(city)
+    weather_forecast = get_weather_forecast(coordinates[1], coordinates[0])
+    spotify_data = get_spotify_info(weather_forecast['weather_symbol'])
+ 
+    info = {
+            'city': city,
+            'cooordinates': {
+                'latitude': coordinates[0],
+                'longitude': coordinates[1]
+            },
+            'weatherInfo': {
+                'temperature': weather_forecast['temperature'],
+                'weatherSymbol': weather_forecast['weather_symbol']
+            },
+            'spotify': {
+                'mood': spotify_data[2],
+                'playlist': spotify_data[0],
+                'spotifyLink': spotify_data[1]
+            }
+            }
+
+    return jsonify(info)
+
 
 @app.route('/')
 def start():
     #visar startsidan där stad väljs, skickas vidare till route result
     return render_template("index.html")
+
 
 @app.route('/about')
 def info():
@@ -49,5 +78,5 @@ def find_city():
 
     return render_template("result.html", city=city, weather_symbol=weather_symbol, temp=temp, picture=picture, name_of_playlist=name_of_playlist, link=link )
 
-    if __name__ == "__name__":
-        app.run(debug=True)
+if __name__ == "__name__":
+    app.run(debug=True)
