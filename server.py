@@ -7,7 +7,6 @@ from spotify_api import get_spotify_info
 # Importerar funktionen som hämtar vädersymbolerna från smhi
 from weather import get_weather_picture
 from flask import Flask, request, render_template, jsonify
-from flask import *
 
 app = Flask(__name__)
 prefix = '/api/v1'
@@ -21,7 +20,7 @@ def zephyr_api(city):
 
     info = {
             'city': city,
-            'cooordinates': {
+            'coordinates': {
                 'latitude': coordinates[0],
                 'longitude': coordinates[1]
             },
@@ -87,6 +86,7 @@ def find_city():
                     return render_template("result.html", city=city, weather_symbol=weather_symbol, temp=temp, picture=picture, name_of_playlist=name_of_playlist, link=link )
     except:
         return render_template("page_not_found.html")
+
 
 if __name__ == "__name__":
     app.run(debug=True)
