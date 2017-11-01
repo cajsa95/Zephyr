@@ -12,15 +12,20 @@ def get_coordinates(city):
 	request = requests.get(url)
 	# Den returnerade JSON parsas
 	results = request.json()['results']
-	# Tar ut endast koordinaterna
-	coordinates = results[0]['geometry']['location']
+	print("geocoding" + str(results))
+	print(len(results))
+	if len(results) == 0:
+		return False
+	else:
+		# Tar ut endast koordinaterna
+		coordinates = results[0]['geometry']['location']
 
-	# Koordinaterna måste göras om till strängar och får max ha 6st decimaler för att fungera med SMHI's API
-	latitude = str(round(coordinates['lat'], 6))
-	longitude = str(round(coordinates['lng'], 6))
+		# Koordinaterna måste göras om till strängar och får max ha 6st decimaler för att fungera med SMHI's API
+		latitude = str(round(coordinates['lat'], 6))
+		longitude = str(round(coordinates['lng'], 6))
 
-	# Lägger koordinaterna i en lista
-	coordinates_list = [latitude, longitude]
+		# Lägger koordinaterna i en lista
+		coordinates_list = [latitude, longitude]
 
-	# Returnerar listan
-	return coordinates_list
+		# Returnerar listan
+		return coordinates_list

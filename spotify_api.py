@@ -49,7 +49,7 @@ def get_spotify_info(weather_symbol):
     elif weather_symbol == 15: #Snowfall
         mood = 'winter'
     else:
-        print("Something went terrible wrong, sorry!")
+        return False
 
     #Skapa en accsess-token som är nödvändig för att komma åt APIt
     t = requests.post(url, data=body_params, auth = (client_id, client_secret))
@@ -59,17 +59,22 @@ def get_spotify_info(weather_symbol):
     r = requests.get("https://api.spotify.com/v1/search/?q=" + mood + "&type=playlist&limit=1", headers={"Authorization": "Bearer " + token})
     #SKA TA BORT DENNA RAD SEDAN print(r.json()['playlists']['items']['name'])
     data = (r.json())
-    #SKA A BORT DENNA RAD SEDAN print(data)
+    #SKA A BORT DENNA RAD SEDAN
+    print("spotify")
+    print(len(data))
+    if len(data) == 0:
+        return False
+    else:
 
-    #Loopar igenom resultatet och plockar ur spellistans namn och url
-    for item in (data["playlists"]['items']):
-        playlist = (item["name"])
-        link = (item['uri'])
+        #Loopar igenom resultatet och plockar ur spellistans namn och url
+        for item in (data["playlists"]['items']):
+            playlist = (item["name"])
+            link = (item['uri'])
 
-    #Skapar en tom lista och adderar in spellistans namn och url
-    spotify_data = []
-    spotify_data.append(playlist)
-    spotify_data.append(link)
-    spotify_data.append(mood)
+            #Skapar en tom lista och adderar in spellistans namn och url
+            spotify_data = []
+            spotify_data.append(playlist)
+            spotify_data.append(link)
+            spotify_data.append(mood)
 
-    return spotify_data
+            return spotify_data
